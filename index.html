@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mark Socks — AI Automation Manager</title>
+    <meta name="description"
+        content="Mark Socks — AI Automation Manager at Henry Ford Health. Putting AI and automation to work across a large health system: developer enablement, clinical interoperability, and practical tooling." />
+    <meta name="theme-color" content="#0b0d10" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+
+    <!-- Open Graph / social preview -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Mark Socks — AI Automation Manager" />
+    <meta property="og:description"
+        content="Putting AI and automation to work across a large health system." />
+    <meta property="og:url" content="https://marksocks.com" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ── PALETTE (light default, dark via system pref) ── */
+        :root {
+            --bg: #fafafa;
+            --bg-soft: #f3f4f6;
+            --panel: #ffffff;
+            --border: #e6e8eb;
+            --border-strong: #d4d8dd;
+            --text: #15181d;
+            --muted: #5a6472;
+            --faint: #97a0ad;
+            --accent: #0d9488;
+            --accent-ink: #0b7a70;
+            --accent-soft: rgba(13, 148, 136, 0.08);
+            --accent-line: rgba(13, 148, 136, 0.22);
+            --grid: rgba(20, 24, 28, 0.04);
+            --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 8px 24px rgba(16, 24, 40, 0.06);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0b0d10;
+                --bg-soft: #0f1216;
+                --panel: #14181d;
+                --border: #232a32;
+                --border-strong: #2c343d;
+                --text: #e7ebf1;
+                --muted: #95a0af;
+                --faint: #5c6675;
+                --accent: #2dd4bf;
+                --accent-ink: #5eead4;
+                --accent-soft: rgba(45, 212, 191, 0.10);
+                --accent-line: rgba(45, 212, 191, 0.26);
+                --grid: rgba(255, 255, 255, 0.035);
+                --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 12px 32px rgba(0, 0, 0, 0.35);
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-size: 16px;
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* faint dotted grid — quiet "terminal" texture */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 56px 56px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        /* ── shared mono label ── */
+        .mono {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+        }
+
+        .eyebrow {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            letter-spacing: 0.06em;
+            color: var(--accent-ink);
+            text-transform: uppercase;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            letter-spacing: 0.04em;
+            color: var(--faint);
+            margin-bottom: 10px;
+        }
+
+        .section-label b {
+            color: var(--accent-ink);
+            font-weight: 600;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: color-mix(in srgb, var(--bg) 82%, transparent);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-inner {
+            max-width: 880px;
+            margin: 0 auto;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: -0.2px;
+        }
+
+        .nav-logo .c {
+            color: var(--accent);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 26px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.18s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* ── HERO ── */
+        header.hero {
+            padding: 92px 0 64px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            background: var(--panel);
+            border-radius: 999px;
+            padding: 5px 12px;
+            margin-bottom: 26px;
+        }
+
+        .status .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 0 var(--accent-line);
+            animation: pulse 2.4s ease-out infinite;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6.5vw, 60px);
+            font-weight: 800;
+            letter-spacing: -1.6px;
+            line-height: 1.02;
+            margin-bottom: 18px;
+        }
+
+        h1 .accent {
+            color: var(--accent);
+        }
+
+        .lede {
+            font-size: clamp(18px, 2.6vw, 22px);
+            color: var(--muted);
+            font-weight: 400;
+            max-width: 620px;
+            margin-bottom: 16px;
+        }
+
+        .sub {
+            font-size: 15.5px;
+            color: var(--muted);
+            max-width: 620px;
+            margin-bottom: 32px;
+        }
+
+        .cta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.18s, border-color 0.18s, background 0.18s;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .btn-primary { color: #06201d; }
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 22px var(--accent-line);
+        }
+
+        .btn-ghost {
+            border: 1px solid var(--border-strong);
+            color: var(--text);
+            background: var(--panel);
+        }
+
+        .btn-ghost:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            padding: 56px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        h2 {
+            font-size: clamp(24px, 3.4vw, 30px);
+            font-weight: 700;
+            letter-spacing: -0.6px;
+            margin-bottom: 28px;
+        }
+
+        /* ── FOCUS ── */
+        .focus-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .focus-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px 22px 24px;
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .focus-card:hover {
+            border-color: var(--accent-line);
+            transform: translateY(-2px);
+        }
+
+        .focus-card .k {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            color: var(--accent-ink);
+            margin-bottom: 10px;
+        }
+
+        .focus-card h3 {
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 8px;
+        }
+
+        .focus-card p {
+            font-size: 14.5px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ── WORK ── */
+        .work-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .work-item {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 22px 24px;
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .work-item:hover {
+            border-color: var(--accent-line);
+            transform: translateY(-2px);
+        }
+
+        .work-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .work-head h3 {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .work-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 11px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            color: var(--accent-ink);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-line);
+            white-space: nowrap;
+        }
+
+        .work-item p {
+            font-size: 14.5px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        /* ── CONTACT ── */
+        .contact-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .contact-card {
+            flex: 1;
+            min-width: 220px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 22px;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: border-color 0.2s, transform 0.2s;
+        }
+
+        .contact-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .contact-card .k {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 11px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--faint);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .contact-card .v {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 28px 0 40px;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .footer-inner .copy {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            color: var(--faint);
+        }
+
+        /* homelab link: hidden until reachability check passes */
+        #homelab-link {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12.5px;
+            text-decoration: none;
+            color: var(--muted);
+            border: 1px solid var(--border-strong);
+            background: var(--panel);
+            border-radius: 999px;
+            padding: 6px 13px;
+            transition: border-color 0.18s, color 0.18s;
+        }
+
+        #homelab-link.show {
+            display: inline-flex;
+            animation: fadeIn 0.4s ease;
+        }
+
+        #homelab-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        #homelab-link .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent);
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 var(--accent-line); }
+            70% { box-shadow: 0 0 0 7px transparent; }
+            100% { box-shadow: 0 0 0 0 transparent; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+            .reveal { opacity: 1; transform: none; }
+            html { scroll-behavior: auto; }
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 640px) {
+            .nav-links { gap: 18px; }
+            header.hero { padding: 64px 0 48px; }
+            .focus-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <div class="nav-logo">mark<span class="c">.</span>socks</div>
+            <ul class="nav-links">
+                <li><a href="#focus">focus</a></li>
+                <li><a href="#work">work</a></li>
+                <li><a href="#contact">contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+        <div class="wrap">
+            <div class="status">
+                <span class="dot"></span> Detroit, MI · Henry Ford Health
+            </div>
+            <p class="eyebrow">AI Automation Manager · Healthcare</p>
+            <h1>Mark Socks</h1>
+            <p class="lede">Putting AI and automation to work across a large health system.</p>
+            <p class="sub">Fifteen years in healthcare technology — from cloud architecture and
+                clinical integration to developer tooling. Now I lead how our teams adopt AI:
+                practical, governed, and actually used.</p>
+            <div class="cta">
+                <a href="mailto:socks.mark@gmail.com" class="btn btn-primary">Get in touch</a>
+                <a href="#work" class="btn btn-ghost">↓ See the work</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- FOCUS -->
+    <section id="focus">
+        <div class="wrap">
+            <p class="section-label"><b>//</b> what I work on</p>
+            <h2 class="reveal">Focus</h2>
+            <div class="focus-grid">
+                <div class="focus-card reveal">
+                    <div class="k">~/ai-enablement</div>
+                    <h3>AI adoption &amp; enablement</h3>
+                    <p>Leading the GitHub Copilot rollout across analytics and engineering teams —
+                        MCP servers, guardrails, tip sheets, and the human side of getting people to
+                        actually use it.</p>
+                </div>
+                <div class="focus-card reveal">
+                    <div class="k">~/interoperability</div>
+                    <h3>Clinical interoperability</h3>
+                    <p>HL7 / FHIR, CCD generation, and Mirth Connect pipelines that move clinical
+                        data where it needs to go — reliably and at scale.</p>
+                </div>
+                <div class="focus-card reveal">
+                    <div class="k">~/automation</div>
+                    <h3>Automation &amp; tooling</h3>
+                    <p>Python and TypeScript that remove manual work — from document intake and
+                        OCR to patient matching and the glue between systems.</p>
+                </div>
+                <div class="focus-card reveal">
+                    <div class="k">~/leadership</div>
+                    <h3>Engineer → manager</h3>
+                    <p>Translating between executives and engineers: turning AI strategy into
+                        concrete tooling, standards, and adoption people can rely on.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WORK -->
+    <section id="work">
+        <div class="wrap">
+            <p class="section-label"><b>//</b> selected projects</p>
+            <h2 class="reveal">Work</h2>
+            <div class="work-list">
+
+                <div class="work-item reveal">
+                    <div class="work-head">
+                        <h3>Fax AI</h3>
+                        <div class="work-tags">
+                            <span class="tag">Python</span>
+                            <span class="tag">LLM</span>
+                            <span class="tag">OCR</span>
+                        </div>
+                    </div>
+                    <p>OCR + AI to extract fields and index charts from thousands of incoming faxes
+                        a day, with assists for patient matching and catching human errors.</p>
+                </div>
+
+                <div class="work-item reveal">
+                    <div class="work-head">
+                        <h3>GitHub Copilot Rollout</h3>
+                        <div class="work-tags">
+                            <span class="tag">Copilot</span>
+                            <span class="tag">MCP</span>
+                            <span class="tag">Enablement</span>
+                        </div>
+                    </div>
+                    <p>Bringing GitHub Copilot to analytics teams and developers across Henry Ford
+                        Health — standing up MCP servers, writing tip sheets, and driving adoption.</p>
+                </div>
+
+                <div class="work-item reveal">
+                    <div class="work-head">
+                        <h3>CCD Generation</h3>
+                        <div class="work-tags">
+                            <span class="tag">Mirth Connect</span>
+                            <span class="tag">HL7</span>
+                            <span class="tag">Epic</span>
+                        </div>
+                    </div>
+                    <p>Building Continuity of Care Documents from HL7 messages to streamline how
+                        incoming clinical results land in the Epic system.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <div class="wrap">
+            <p class="section-label"><b>//</b> reach out</p>
+            <h2 class="reveal">Contact</h2>
+            <div class="contact-row reveal">
+                <a href="mailto:socks.mark@gmail.com" class="contact-card">
+                    <span class="k">Email</span>
+                    <span class="v">socks.mark@gmail.com</span>
+                </a>
+                <a href="https://github.com/RFC1928" target="_blank" rel="noopener" class="contact-card">
+                    <span class="k">GitHub</span>
+                    <span class="v">github.com/RFC1928</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="wrap footer-inner">
+            <span class="copy">&copy; 2026 Mark Socks · marksocks.com</span>
+            <!-- Revealed only when the homelab responds (see HOMELAB config below). -->
+            <a id="homelab-link" rel="noopener">
+                <span class="dot"></span> homelab ↗
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        /* ── Scroll reveal ───────────────────────────────────────── */
+        (function () {
+            var els = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                els.forEach(function (el) { el.classList.add('visible'); });
+                return;
+            }
+            var io = new IntersectionObserver(function (entries) {
+                entries.forEach(function (e, i) {
+                    if (e.isIntersecting) {
+                        setTimeout(function () { e.target.classList.add('visible'); }, i * 70);
+                        io.unobserve(e.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            els.forEach(function (el) { io.observe(el); });
+        })();
+
+        /* ── Homelab link: show only when on-VLAN / reachable ────────
+           Edit the values below.
+             href       : where the link points when you click it
+             ping       : a SMALL image on the homelab used to test reachability
+                          (a favicon or logo works well)
+             timeout    : ms to wait before giving up
+             alwaysShow : set true to skip detection and always show the link
+
+           NOTE on HTTPS: this page is served over https (GitHub Pages). Browsers
+           block requests from an https page to an http target ("mixed content"),
+           so detection works most reliably if your homelab is reachable over
+           https too. If it's http-only, either set alwaysShow:true, or serve the
+           homelab behind https (Caddy / Traefik / Nginx Proxy Manager).
+        ──────────────────────────────────────────────────────────── */
+        (function () {
+            var HOMELAB = {
+                href: 'https://home.marksocks.lan',
+                ping: 'https://home.marksocks.lan/favicon.ico',
+                timeout: 2500,
+                alwaysShow: false
+            };
+
+            var el = document.getElementById('homelab-link');
+            if (!el) return;
+            el.href = HOMELAB.href;
+
+            if (HOMELAB.alwaysShow) { el.classList.add('show'); return; }
+
+            var settled = false;
+            function reveal() { if (!settled) { settled = true; el.classList.add('show'); } }
+            function fail() { settled = true; } // stay hidden
+
+            var img = new Image();
+            var timer = setTimeout(function () { if (!settled) { settled = true; img.src = ''; } }, HOMELAB.timeout);
+            img.onload = function () { clearTimeout(timer); reveal(); };
+            img.onerror = function () { clearTimeout(timer); fail(); };
+            img.src = HOMELAB.ping + (HOMELAB.ping.indexOf('?') > -1 ? '&' : '?') + 'cb=' + Date.now();
+        })();
+    </script>
+</body>
+
+</html>
