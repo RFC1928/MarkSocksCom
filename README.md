@@ -18,8 +18,8 @@ bottom of `index.html`:
 
 ```js
 var HOMELAB = {
-    href: 'https://home.marksocks.lan',          // where the link points
-    ping: 'https://home.marksocks.lan/favicon.ico', // small image used to test reachability
+    href: 'https://home.marksocks.com',          // where the link points
+    ping: 'https://home.marksocks.com/favicon.ico', // small image used to test reachability
     timeout: 2500,                                // ms before giving up
     alwaysShow: false                            // true = skip detection, always show
 };
