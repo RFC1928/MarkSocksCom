@@ -594,49 +594,11 @@
             color: var(--faint);
         }
 
-        /* homelab link: hidden until reachability check passes */
-        #homelab-link {
-            display: none;
-            align-items: center;
-            gap: 8px;
-            font-family: 'JetBrains Mono', ui-monospace, monospace;
-            font-size: 12.5px;
-            text-decoration: none;
-            color: var(--muted);
-            border: 1px solid var(--border-strong);
-            background: var(--panel);
-            border-radius: 999px;
-            padding: 6px 13px;
-            transition: border-color 0.18s, color 0.18s;
-        }
-
-        #homelab-link.show {
-            display: inline-flex;
-            animation: fadeIn 0.4s ease;
-        }
-
-        #homelab-link:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-
-        #homelab-link .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: var(--accent);
-        }
-
         /* ── ANIMATIONS ── */
         @keyframes pulse {
             0% { box-shadow: 0 0 0 0 var(--accent-line); }
             70% { box-shadow: 0 0 0 7px transparent; }
             100% { box-shadow: 0 0 0 0 transparent; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: none; }
         }
 
         .reveal {
@@ -658,7 +620,7 @@
 
         /* ── PRINT ── */
         @media print {
-            nav, .cta, .skip, #homelab-link, body::before { display: none !important; }
+            nav, .cta, .skip, body::before { display: none !important; }
             body { background: #fff; color: #000; }
             .reveal { opacity: 1; transform: none; }
             section, header.hero { padding: 24px 0; }
@@ -863,10 +825,6 @@
     <footer>
         <div class="wrap footer-inner">
             <span class="copy">&copy; 2026 Mark Socks · marksocks.com</span>
-            <!-- Revealed only when the homelab responds (see HOMELAB config below). -->
-            <a id="homelab-link" rel="noopener">
-                <span class="dot"></span> homelab ↗
-            </a>
         </div>
     </footer>
 
@@ -887,45 +845,6 @@
                 });
             }, { threshold: 0.12 });
             els.forEach(function (el) { io.observe(el); });
-        })();
-
-        /* ── Homelab link: show only when on-VLAN / reachable ────────
-           Edit the values below.
-             href       : where the link points when you click it
-             ping       : a SMALL image on the homelab used to test reachability
-                          (a favicon or logo works well)
-             timeout    : ms to wait before giving up
-             alwaysShow : set true to skip detection and always show the link
-
-           NOTE on HTTPS: this page is served over https (GitHub Pages). Browsers
-           block requests from an https page to an http target ("mixed content"),
-           so detection works most reliably if your homelab is reachable over
-           https too. If it's http-only, either set alwaysShow:true, or serve the
-           homelab behind https (Caddy / Traefik / Nginx Proxy Manager).
-        ──────────────────────────────────────────────────────────── */
-        (function () {
-            var HOMELAB = {
-                href: 'https://home.marksocks.com',
-                ping: 'https://home.marksocks.com/favicon.ico',
-                timeout: 2500,
-                alwaysShow: false
-            };
-
-            var el = document.getElementById('homelab-link');
-            if (!el) return;
-            el.href = HOMELAB.href;
-
-            if (HOMELAB.alwaysShow) { el.classList.add('show'); return; }
-
-            var settled = false;
-            function reveal() { if (!settled) { settled = true; el.classList.add('show'); } }
-            function fail() { settled = true; } // stay hidden
-
-            var img = new Image();
-            var timer = setTimeout(function () { if (!settled) { settled = true; img.src = ''; } }, HOMELAB.timeout);
-            img.onload = function () { clearTimeout(timer); reveal(); };
-            img.onerror = function () { clearTimeout(timer); fail(); };
-            img.src = HOMELAB.ping + (HOMELAB.ping.indexOf('?') > -1 ? '&' : '?') + 'cb=' + Date.now();
         })();
     </script>
 </body>
