@@ -6,9 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mark Socks — AI Automation Manager</title>
     <meta name="description"
-        content="Mark Socks — AI Automation Manager at Henry Ford Health. Putting AI and automation to work across a large health system: developer enablement, clinical interoperability, and practical tooling." />
+        content="Mark Socks — AI Automation Manager at Henry Ford Health. Fifteen years in healthcare technology: clinical systems, Epic, health information exchange, and now AI and automation leadership in the Digital Enablement Hub." />
+    <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#0b0d10" media="(prefers-color-scheme: dark)" />
     <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <link rel="canonical" href="https://marksocks.com/" />
+
+    <!-- Icons -->
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b0d10'/%3E%3Ctext x='32' y='43' font-family='Consolas,Menlo,monospace' font-size='30' font-weight='700' fill='%232dd4bf' text-anchor='middle'%3Ems%3C/text%3E%3C/svg%3E" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Open Graph / social preview -->
     <meta property="og:type" content="website" />
@@ -16,6 +23,24 @@
     <meta property="og:description"
         content="Putting AI and automation to work across a large health system." />
     <meta property="og:url" content="https://marksocks.com" />
+    <meta property="og:image" content="https://marksocks.com/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Mark Socks",
+        "jobTitle": "AI Automation Manager",
+        "worksFor": { "@type": "Organization", "name": "Henry Ford Health" },
+        "url": "https://marksocks.com",
+        "email": "mailto:socks.mark@gmail.com",
+        "sameAs": ["https://github.com/RFC1928"],
+        "knowsAbout": ["Healthcare AI", "Automation", "Health Information Exchange", "HL7", "FHIR", "Epic", "Azure AI", "Clinical Interoperability"]
+    }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,6 +59,7 @@
 
         /* ── PALETTE (light default, dark via system pref) ── */
         :root {
+            color-scheme: light dark;
             --bg: #fafafa;
             --bg-soft: #f3f4f6;
             --panel: #ffffff;
@@ -83,6 +109,17 @@
             overflow-x: hidden;
         }
 
+        ::selection {
+            background: var(--accent);
+            color: var(--bg);
+        }
+
+        :focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+
         /* faint dotted grid — quiet "terminal" texture */
         body::before {
             content: '';
@@ -106,6 +143,25 @@
 
         a {
             color: inherit;
+        }
+
+        /* skip link — visible only on keyboard focus */
+        .skip {
+            position: absolute;
+            left: -9999px;
+            top: 0;
+            z-index: 200;
+            background: var(--accent);
+            color: var(--bg);
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 13px;
+            padding: 10px 18px;
+            border-radius: 0 0 8px 0;
+            text-decoration: none;
+        }
+
+        .skip:focus {
+            left: 0;
         }
 
         /* ── shared mono label ── */
@@ -233,7 +289,7 @@
         .sub {
             font-size: 15.5px;
             color: var(--muted);
-            max-width: 620px;
+            max-width: 640px;
             margin-bottom: 32px;
         }
 
@@ -395,6 +451,88 @@
             line-height: 1.6;
         }
 
+        /* ── PATH (career timeline) ── */
+        .timeline {
+            list-style: none;
+            position: relative;
+            padding-left: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 8px;
+            bottom: 8px;
+            width: 1px;
+            background: var(--border-strong);
+        }
+
+        .tl-item {
+            position: relative;
+        }
+
+        .tl-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 5px;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid var(--faint);
+        }
+
+        .tl-item:last-child::before {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px var(--accent-soft);
+        }
+
+        .tl-k {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            color: var(--accent-ink);
+            margin-bottom: 4px;
+        }
+
+        .tl-item h3 {
+            font-size: 16.5px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 4px;
+        }
+
+        .tl-item p {
+            font-size: 14.5px;
+            color: var(--muted);
+            line-height: 1.6;
+            max-width: 620px;
+        }
+
+        .creds {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px dashed var(--border-strong);
+        }
+
+        .cred {
+            font-family: 'JetBrains Mono', ui-monospace, monospace;
+            font-size: 12px;
+            padding: 7px 14px;
+            border: 1px solid var(--border-strong);
+            border-radius: 999px;
+            color: var(--muted);
+            background: var(--panel);
+        }
+
         /* ── CONTACT ── */
         .contact-row {
             display: flex;
@@ -518,6 +656,14 @@
             html { scroll-behavior: auto; }
         }
 
+        /* ── PRINT ── */
+        @media print {
+            nav, .cta, .skip, #homelab-link, body::before { display: none !important; }
+            body { background: #fff; color: #000; }
+            .reveal { opacity: 1; transform: none; }
+            section, header.hero { padding: 24px 0; }
+        }
+
         /* ── RESPONSIVE ── */
         @media (max-width: 640px) {
             .nav-links { gap: 18px; }
@@ -529,139 +675,189 @@
 
 <body>
 
+    <a class="skip" href="#main">skip to content</a>
+
     <!-- NAV -->
-    <nav>
+    <nav aria-label="Main">
         <div class="nav-inner">
             <div class="nav-logo">mark<span class="c">.</span>socks</div>
             <ul class="nav-links">
                 <li><a href="#focus">focus</a></li>
                 <li><a href="#work">work</a></li>
+                <li><a href="#path">path</a></li>
                 <li><a href="#contact">contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- HERO -->
-    <header class="hero">
-        <div class="wrap">
-            <div class="status">
-                <span class="dot"></span> Detroit, MI · Henry Ford Health
-            </div>
-            <p class="eyebrow">AI Automation Manager · Healthcare</p>
-            <h1>Mark Socks</h1>
-            <p class="lede">Putting AI and automation to work across a large health system.</p>
-            <p class="sub">Fifteen years in healthcare technology — from cloud architecture and
-                clinical integration to developer tooling. Now I lead how our teams adopt AI:
-                practical, governed, and actually used.</p>
-            <div class="cta">
-                <a href="mailto:socks.mark@gmail.com" class="btn btn-primary">Get in touch</a>
-                <a href="#work" class="btn btn-ghost">↓ See the work</a>
-            </div>
-        </div>
-    </header>
+    <main id="main">
 
-    <!-- FOCUS -->
-    <section id="focus">
-        <div class="wrap">
-            <p class="section-label"><b>//</b> what I work on</p>
-            <h2 class="reveal">Focus</h2>
-            <div class="focus-grid">
-                <div class="focus-card reveal">
-                    <div class="k">~/ai-enablement</div>
-                    <h3>AI adoption &amp; enablement</h3>
-                    <p>Leading the GitHub Copilot rollout across analytics and engineering teams —
-                        MCP servers, guardrails, tip sheets, and the human side of getting people to
-                        actually use it.</p>
+        <!-- HERO -->
+        <header class="hero">
+            <div class="wrap">
+                <div class="status">
+                    <span class="dot"></span> Detroit, MI · Henry Ford Health
                 </div>
-                <div class="focus-card reveal">
-                    <div class="k">~/interoperability</div>
-                    <h3>Clinical interoperability</h3>
-                    <p>HL7 / FHIR, CCD generation, and Mirth Connect pipelines that move clinical
-                        data where it needs to go — reliably and at scale.</p>
-                </div>
-                <div class="focus-card reveal">
-                    <div class="k">~/automation</div>
-                    <h3>Automation &amp; tooling</h3>
-                    <p>Python and TypeScript that remove manual work — from document intake and
-                        OCR to patient matching and the glue between systems.</p>
-                </div>
-                <div class="focus-card reveal">
-                    <div class="k">~/leadership</div>
-                    <h3>Engineer → manager</h3>
-                    <p>Translating between executives and engineers: turning AI strategy into
-                        concrete tooling, standards, and adoption people can rely on.</p>
+                <p class="eyebrow">AI Automation Manager · Healthcare</p>
+                <h1>Mark Socks</h1>
+                <p class="lede">Putting AI and automation to work across a large health system.</p>
+                <p class="sub">Fifteen years at Henry Ford Health — inpatient clinical systems, a
+                    legacy-EHR-to-Epic conversion, then a long run in health information exchange
+                    as programmer, architect, and team lead. Today I manage the Automation team in
+                    our Digital Enablement Hub, where AI, automation, and analytics come together.</p>
+                <div class="cta">
+                    <a href="mailto:socks.mark@gmail.com" class="btn btn-primary">Get in touch</a>
+                    <a href="#work" class="btn btn-ghost">↓ See the work</a>
                 </div>
             </div>
-        </div>
-    </section>
+        </header>
 
-    <!-- WORK -->
-    <section id="work">
-        <div class="wrap">
-            <p class="section-label"><b>//</b> selected projects</p>
-            <h2 class="reveal">Work</h2>
-            <div class="work-list">
-
-                <div class="work-item reveal">
-                    <div class="work-head">
-                        <h3>Fax AI</h3>
-                        <div class="work-tags">
-                            <span class="tag">Python</span>
-                            <span class="tag">LLM</span>
-                            <span class="tag">OCR</span>
-                        </div>
+        <!-- FOCUS -->
+        <section id="focus">
+            <div class="wrap">
+                <p class="section-label"><b>//</b> what I work on</p>
+                <h2 class="reveal">Focus</h2>
+                <div class="focus-grid">
+                    <div class="focus-card reveal">
+                        <div class="k">~/ai-enablement</div>
+                        <h3>AI adoption &amp; enablement</h3>
+                        <p>Leading the GitHub Copilot rollout across analytics and engineering
+                            teams, and building on Azure AI Foundry — MCP servers, guardrails, tip
+                            sheets, and the human side of getting people to actually use it.</p>
                     </div>
-                    <p>OCR + AI to extract fields and index charts from thousands of incoming faxes
-                        a day, with assists for patient matching and catching human errors.</p>
-                </div>
-
-                <div class="work-item reveal">
-                    <div class="work-head">
-                        <h3>GitHub Copilot Rollout</h3>
-                        <div class="work-tags">
-                            <span class="tag">Copilot</span>
-                            <span class="tag">MCP</span>
-                            <span class="tag">Enablement</span>
-                        </div>
+                    <div class="focus-card reveal">
+                        <div class="k">~/interoperability</div>
+                        <h3>Clinical interoperability</h3>
+                        <p>HL7 / FHIR, CCD generation, and Mirth Connect pipelines that move
+                            clinical data where it needs to go — reliably and at scale.</p>
                     </div>
-                    <p>Bringing GitHub Copilot to analytics teams and developers across Henry Ford
-                        Health — standing up MCP servers, writing tip sheets, and driving adoption.</p>
-                </div>
-
-                <div class="work-item reveal">
-                    <div class="work-head">
-                        <h3>CCD Generation</h3>
-                        <div class="work-tags">
-                            <span class="tag">Mirth Connect</span>
-                            <span class="tag">HL7</span>
-                            <span class="tag">Epic</span>
-                        </div>
+                    <div class="focus-card reveal">
+                        <div class="k">~/automation</div>
+                        <h3>Automation &amp; tooling</h3>
+                        <p>Python and TypeScript that remove manual work — document intake, OCR,
+                            patient matching — and the cloud architecture underneath it.</p>
                     </div>
-                    <p>Building Continuity of Care Documents from HL7 messages to streamline how
-                        incoming clinical results land in the Epic system.</p>
+                    <div class="focus-card reveal">
+                        <div class="k">~/leadership</div>
+                        <h3>Engineer → manager</h3>
+                        <p>Running the Automation team — translating between executives and
+                            engineers, turning AI strategy into tooling, standards, and adoption
+                            people can rely on.</p>
+                    </div>
                 </div>
-
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- CONTACT -->
-    <section id="contact">
-        <div class="wrap">
-            <p class="section-label"><b>//</b> reach out</p>
-            <h2 class="reveal">Contact</h2>
-            <div class="contact-row reveal">
-                <a href="mailto:socks.mark@gmail.com" class="contact-card">
-                    <span class="k">Email</span>
-                    <span class="v">socks.mark@gmail.com</span>
-                </a>
-                <a href="https://github.com/RFC1928" target="_blank" rel="noopener" class="contact-card">
-                    <span class="k">GitHub</span>
-                    <span class="v">github.com/RFC1928</span>
-                </a>
+        <!-- WORK -->
+        <section id="work">
+            <div class="wrap">
+                <p class="section-label"><b>//</b> selected projects</p>
+                <h2 class="reveal">Work</h2>
+                <div class="work-list">
+
+                    <div class="work-item reveal">
+                        <div class="work-head">
+                            <h3>Fax AI</h3>
+                            <div class="work-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">LLM</span>
+                                <span class="tag">OCR</span>
+                            </div>
+                        </div>
+                        <p>OCR + AI to extract fields and index charts from thousands of incoming
+                            faxes a day, with assists for patient matching and catching human
+                            errors.</p>
+                    </div>
+
+                    <div class="work-item reveal">
+                        <div class="work-head">
+                            <h3>GitHub Copilot Rollout</h3>
+                            <div class="work-tags">
+                                <span class="tag">Copilot</span>
+                                <span class="tag">MCP</span>
+                                <span class="tag">Enablement</span>
+                            </div>
+                        </div>
+                        <p>Bringing GitHub Copilot to analytics teams and developers across Henry
+                            Ford Health — standing up MCP servers, writing tip sheets, and driving
+                            adoption.</p>
+                    </div>
+
+                    <div class="work-item reveal">
+                        <div class="work-head">
+                            <h3>CCD Generation</h3>
+                            <div class="work-tags">
+                                <span class="tag">Mirth Connect</span>
+                                <span class="tag">HL7</span>
+                                <span class="tag">Epic</span>
+                            </div>
+                        </div>
+                        <p>Building Continuity of Care Documents from HL7 messages to streamline
+                            how incoming clinical results land in the Epic system.</p>
+                    </div>
+
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- PATH -->
+        <section id="path">
+            <div class="wrap">
+                <p class="section-label"><b>//</b> the road here</p>
+                <h2 class="reveal">Path</h2>
+                <ol class="timeline">
+                    <li class="tl-item reveal">
+                        <div class="tl-k">~/clinical-systems</div>
+                        <h3>Clinical information systems</h3>
+                        <p>Inpatient EHR support — keeping the systems clinicians depend on
+                            running, and learning how hospitals actually work.</p>
+                    </li>
+                    <li class="tl-item reveal">
+                        <div class="tl-k">~/epic-conversion</div>
+                        <h3>Legacy EHR → Epic</h3>
+                        <p>Helped carry the health system through its conversion from a legacy
+                            EHR to Epic.</p>
+                    </li>
+                    <li class="tl-item reveal">
+                        <div class="tl-k">~/hie</div>
+                        <h3>Health Information Exchange</h3>
+                        <p>Programmer to architect to team lead — clinical interoperability at
+                            scale, plus a stretch on the analytics and reporting side.</p>
+                    </li>
+                    <li class="tl-item reveal">
+                        <div class="tl-k">~/automation — now</div>
+                        <h3>Manager, Automation</h3>
+                        <p>Leading the Automation team in Henry Ford Health's Digital Enablement
+                            Hub — the home of AI, automation, and analytics.</p>
+                    </li>
+                </ol>
+                <div class="creds reveal">
+                    <span class="cred">M.S. in IT Management</span>
+                    <span class="cred">Epic certified — many modules</span>
+                    <span class="cred">Azure AI certifications — in progress</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact">
+            <div class="wrap">
+                <p class="section-label"><b>//</b> reach out</p>
+                <h2 class="reveal">Contact</h2>
+                <div class="contact-row reveal">
+                    <a href="mailto:socks.mark@gmail.com" class="contact-card">
+                        <span class="k">Email</span>
+                        <span class="v">socks.mark@gmail.com</span>
+                    </a>
+                    <a href="https://github.com/RFC1928" target="_blank" rel="noopener" class="contact-card">
+                        <span class="k">GitHub</span>
+                        <span class="v">github.com/RFC1928</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
 
     <!-- FOOTER -->
     <footer>
